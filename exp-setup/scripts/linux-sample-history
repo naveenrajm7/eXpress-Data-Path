@@ -1,0 +1,69 @@
+ls
+    2  sudo apt-get build-dep linux linux-image-$(uname -r)
+    3  sudo vim /etc/apt/sources.list
+    4  sudo apt-get build-dep linux linux-image-$(uname -r)
+    5  sudo vim /etc/apt/sources.list
+    6  sudo apt-get build-dep linux linux-image-$(uname -r)
+    7  sudo vim /etc/apt/sources.list
+    8  sudo apt-get build-dep linux linux-image-$(uname -r)
+    9  sudo apt-get update
+   10  sudo apt-get build-dep linux linux-image-$(uname -r)
+   11  sudo apt-get install git
+   12  ls
+   13  apt-get source linux-image-unsigned-$(uname -r)
+   14  ls
+   15  cd linux-5.15.0/
+   16  ;s
+   17  ls
+   18  clang --version
+   19  sudo DEBIAN_FRONTEND=noninteractive apt install -y clang llvm
+   20  llc --version
+   21  man ps
+   22  clang version
+   23  clang --version
+   24  ls
+   25  make defconfig
+   26  LANG=C fakeroot debian/rules clean
+   27  chmod a+x debian/rules
+   28  chmod a+x debian/scripts/*
+   29  chmod a+x debian/scripts/misc/*
+   30  LANG=C fakeroot debian/rules clean
+   31  apt-get install fakeroot
+   32  sudo apt-get install fakeroot
+   33  LANG=C fakeroot debian/rules clean
+   34  LANG=C fakeroot debian/rules editconfigs
+   35  LANG=C fakeroot debian/rules clean
+   36  ls
+   37  cd ..
+   38  ls
+   39  cd linux-5.15.0/
+   40  LANG=C fakeroot debian/rules binary
+   41  ls
+   42  cd ..
+   43  ls
+   44  ls -lh
+   45  date
+   46  ls *.deb
+   47  rm  *.deb
+   48  ls
+   49  cd linux-5.15.0/
+   50  ls
+   51  LANG=C fakeroot debian/rules clean
+   52  LANG=C fakeroot debian/rules binary-headers binary-generic binary-perarch
+   53  cd ..
+   54  ls
+   55  rm  *.deb
+   56  ls
+   57  cd linux-5.15.0/
+   58  ls
+   59  make M=samples/bpf
+   60  make oldconfig && make prepare
+   61  make M=samples/bpf
+   62  make headers_install
+   63  make M=samples/bpf
+   64  make VMLINUX_BTF=/sys/kernel/btf/vmlinux -C samples/bpf
+   65  echo $?
+   66  ls
+   67  cd ..
+   68  ls
+   69  history > history
