@@ -169,7 +169,7 @@ start - Port 0 : *** Expected L1 B/W: '6.72 Gbps' exceeds port line rate: '1 Gbp
 ```
 
 
-** 1 mpps **
+** DROP Test - 1 mpps **
 ```bash
 trex>start -f stl/udp_for_benchmarks.py --port 0 -m 1mpps -t packet_len=64,stream_count=1
 
@@ -197,8 +197,32 @@ DROP Test
 ```bash
 # TRex server
 
+sudo ./t-rex-64 -i  # start t-rex server in stateless mode
 
 # TRex console
+
+./trex-console
+trex> start -f stl/udp_for_benchmarks.py --port 0 -m 1mpps -t packet_len=64,stream_count=1
+trex>streams
+Port 0:
+
+    ID     |      name       |     profile     |     packet type     |  length  |       mode       |      rate       |    PG ID     |     next     
+-----------+-----------------+-----------------+---------------------+----------+------------------+-----------------+--------------+-------------
+    5      |        -        |        _        | Ethernet:IP:UDP:Raw |       64 |    Continuous    |      1 pps      |      -       |      -       
+
+trex>stop
+
+Stopping traffic on port(s) [0._]:                           [SUCCESS]
+
+6.29 [ms]
+
+trex>clear
+
+Clearing stats :                                             [SUCCESS]
+
+7.23 [ms]
+
+trex>stats
 
 
 # XDP DUT
