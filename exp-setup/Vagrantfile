@@ -4,14 +4,57 @@
 
 Vagrant.configure("2") do |config|
 
-    config.vm.box = "bento/ubuntu-22.04"
-    config.vm.hostname = "xdp-DUT"
-    config.vm.define "xdp-DUT"
 
-    config.vm.network :forwarded_port, guest: 22, host: 2311, id: 'ssh'
+  # Trex VM
+  config.vm.define "tRex", primary: true do |trex|
+    trex.vm.box = "bento/ubuntu-22.04"
+    trex.vm.hostname = "tRex"
 
-    # config.vm.synced_folder "../data", "/vagrant_data"
+    trex.vm.network "private_network", ip: "192.168.253.106",
+        virtualbox__intnet: "net1", mac: "080027112201"
+    trex.vm.network "private_network", ip: "192.168.254.106",
+        virtualbox__intnet: "net2", mac: "080027112202"
+    # Forward Trex Ports
+    trex.vm.network "forwarded_port", guest: 4500, host: 4500
+    trex.vm.network "forwarded_port", guest: 4501, host: 4501
+    # ssh
+    trex.vm.network "private_network", ip: "192.168.56.106"
+    trex.vm.network "forwarded_port", guest: 22, host: 2312, id: 'ssh'
+
+    trex.vm.provider "virtualbox" do |vb|
+      vb.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
+      vb.customize ["modifyvm", :id, "--nicpromisc3", "allow-all"]
+      vb.memory = "2048"
+      # tRex needs min 3 cores for two interfaces
+      vb.cpus = 4
+    end
+
+    trex.vm.provision "shell", path: "scripts/install-trex.sh", privileged: true
+
+  end  
   
-    # config.vm.provision "shell", path: "scripts/install-libbpf.sh"
+  # DUT VM
+  config.vm.define "xdp-DUT" do |dut|
+    dut.vm.box = "bento/ubuntu-22.04"
+    dut.vm.hostname = "xdp-DUT"
+
+    dut.vm.network "private_network", ip: "192.168.253.107",
+        virtualbox__intnet: "net1", mac: "080027445501"
+    dut.vm.network "private_network", ip: "192.168.254.107",
+        virtualbox__intnet: "net2", mac: "080027445502"
+
+    # ssh
+    dut.vm.network "private_network", ip: "192.168.56.107"
+    dut.vm.network "forwarded_port", guest: 22, host: 2313, id: 'ssh'
+
+    dut.vm.provider "virtualbox" do |vb|
+      vb.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
+      vb.customize ["modifyvm", :id, "--nicpromisc3", "allow-all"]
+      vb.memory = "2048"
+      vb.cpus = 2
+    end
+
   end
+
+end
   
