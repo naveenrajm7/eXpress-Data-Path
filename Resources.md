@@ -24,8 +24,12 @@ https://developer.nvidia.com/blog/accelerating-with-xdp-over-mellanox-connectx-n
 
 ## Tests
 
+
+### XDP DROp
+
 Linux RSS & raw , conntrack
 https://blog.cloudflare.com/how-to-achieve-low-latency/
+https://blog.cloudflare.com/how-to-drop-10-million-packets/
 
 Diable RSS 
 https://serverfault.com/questions/892426/disable-nic-receive-side-scaling-hashing
