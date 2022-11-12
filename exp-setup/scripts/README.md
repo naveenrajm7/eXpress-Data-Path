@@ -29,6 +29,9 @@ cd /v3.0.0
 ## XDP DUT
 
 Ubuntu 22.04 bento vagrant box
+
+Install Linux kernel source and dependencies, to run XDP sample program from kernel tree without compiling/building kernel source
+
 ```bash
 sudo vim /etc/apt/sources.list
 # uncomment deb-src of jammy main restricted & jammy-updates main restricted

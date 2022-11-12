@@ -21,7 +21,7 @@ sudo DEBIAN_FRONTEND=noninteractive apt install -y  fakeroot
 sudo DEBIAN_FRONTEND=noninteractive apt install -y clang
 
 # get linux source code
-apt-get source -y linux-image-unsigned-$(uname -r)
+sudo apt-get source -y linux-image-unsigned-$(uname -r)
 
 # Interaction needed for below commands
 
