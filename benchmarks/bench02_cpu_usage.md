@@ -1,12 +1,14 @@
-# Packet Drop Performance
+# CPU Usage
 
 
 **TRex command**
 
 ```bash
-trex> start -f stl/udp_for_benchmarks.py --port 0 -m 1mpps -t packet_len=64,stream_count=XX
+trex> start -f stl/udp_for_benchmarks.py --port 0 -m XXmpps -t packet_len=64,stream_count=1
 ```
 
+
+```mpstat```
 
 ## Linux
 
@@ -15,9 +17,6 @@ trex> start -f stl/udp_for_benchmarks.py --port 0 -m 1mpps -t packet_len=64,stre
 ```bash
 iptables -t raw -j DROP
 ```
-
-### conntrack
-
 
 
 ## XDP
