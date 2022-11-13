@@ -29,7 +29,12 @@ https://developer.nvidia.com/blog/accelerating-with-xdp-over-mellanox-connectx-n
 
 Linux RSS & raw , conntrack
 https://blog.cloudflare.com/how-to-achieve-low-latency/
+
+Different packet drops compared
 https://blog.cloudflare.com/how-to-drop-10-million-packets/
+
+iptables conntrack 
+https://blog.cloudflare.com/conntrack-tales-one-thousand-and-one-flows/
 
 Diable RSS 
 https://serverfault.com/questions/892426/disable-nic-receive-side-scaling-hashing
