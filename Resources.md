@@ -40,6 +40,13 @@ https://blog.cloudflare.com/how-to-drop-10-million-packets/
 iptables conntrack 
 https://blog.cloudflare.com/conntrack-tales-one-thousand-and-one-flows/
 
+iptables 
+https://www.digitalocean.com/community/tutorials/how-to-list-and-delete-iptables-firewall-rules
+
+mmwatch
+https://blog.cloudflare.com/three-little-tools-mmsum-mmwatch-mmhistogram/
+
+
 Diable RSS 
 https://serverfault.com/questions/892426/disable-nic-receive-side-scaling-hashing
 

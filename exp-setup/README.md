@@ -21,6 +21,7 @@ sending traffic from eth1 to eth2
 16.x.x.x and 48.x.x.x are IP address of tRex emulated clients and server respectively.
 
 ```bash
+# enable forwarding packets
 vagrant@xdp-DUT:~$ sudo echo 1 > /proc/sys/net/ipv4/ip_forward
 vagrant@xdp-DUT:~$ sudo route add -net 16.0.0.0 netmask 255.0.0.0 gw 192.168.253.106
 vagrant@xdp-DUT:~$ sudo route add -net 48.0.0.0 netmask 255.0.0.0 gw 192.168.254.106
@@ -67,6 +68,12 @@ Launch the TRex console
 
 ```bash
 vagrant@tRex:/opt/trex/v3.00$ ./trex-console
+Server Info:
+
+Server version:   v3.00 @ STL
+Server mode:      Stateless
+Server CPU:       1 x Intel(R) Core(TM) i5-6360U CPU @ 2.00GHz
+Ports count:      2 x 1Gbps @ 82540EM Gigabit Ethernet Controller
 ```
 
 Start traffic
