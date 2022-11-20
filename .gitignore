@@ -53,3 +53,9 @@ dkms.conf
 
 # Vagrant files
 *.vagrant
+
+# Terraform 
+*.terraform
+
+# aws creds
+*credentials.csv
