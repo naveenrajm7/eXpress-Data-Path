@@ -1,5 +1,11 @@
 # Runs
 
+**TRex command**
+
+```bash
+trex> start -f stl/udp_for_benchmarks.py --port 0 -m XXkpps -t packet_len=64,stream_count=1
+```
+
 ## Linux : iptables raw drop CPU usage
 
 **1mpps**
