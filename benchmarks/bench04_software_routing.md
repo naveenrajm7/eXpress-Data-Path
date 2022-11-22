@@ -62,3 +62,7 @@ sudo ip r add 128.0.0.0/1 via 192.168.254.106
 ```bash
 sudo ./xdp_fwd -D eth1 eth2 -S 
 ```
+
+
+Use ethtool_stats.pl
+https://github.com/netoptimizer/network-testing/blob/master/bin/ethtool_stats.pl

@@ -23,3 +23,6 @@ Same NIC / and Different NIC
 ```bash
 sudo ./xdp_rxq_info --dev eth1 --skb-mode --action XDP_REDIRECT
 ```
+
+You can use XDP_TX to forward packets using the same NIC by which it was received
+You can use XDP_REDIRECT to forward packets to a different network interface
