@@ -13,6 +13,13 @@ provider "aws" {
   region  = "ca-central-1"
 }
 
+
+## TODO: 
+## VPC
+## Placement-group (cluster) , Network-Interface-Card
+## Init scripts
+## 
+
 resource "aws_instance" "app_server" {
   ami           = "ami-0a7154091c5c6623e"
   instance_type = "t2.micro"
