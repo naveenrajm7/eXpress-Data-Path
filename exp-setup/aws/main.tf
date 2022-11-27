@@ -10,7 +10,7 @@ terraform {
 }
 
 provider "aws" {
-  region  = "ca-central-1"
+  region  = var.aws_region
 }
 
 
@@ -21,10 +21,8 @@ provider "aws" {
 ## Init scripts
 ## 
 
-## Edit sg to allow all traffic between security group
-
 resource "aws_vpc" "xdp_vpc" {
-  cidr_block = "10.0.0.0/16"
+  cidr_block = var.vpc_cidr_block
   tags = {
     Name = "xdp-vpc"
   }
@@ -32,8 +30,8 @@ resource "aws_vpc" "xdp_vpc" {
 
 resource "aws_subnet" "xdp_public_subnet" {
   vpc_id            = aws_vpc.xdp_vpc.id
-  cidr_block        = "10.0.1.0/24"
-  availability_zone = "ca-central-1a"
+  cidr_block        = var.public_subnet
+  availability_zone = var.aws_az
 
   tags = {
     Name = "xdp-public-subnet"
@@ -77,11 +75,10 @@ resource "aws_security_group" "xdp_sg" {
 
   ingress {
     description = "Ping"
+    from_port   = 0
+    to_port     = 0 
     protocol    = "icmp"
     cidr_blocks = ["0.0.0.0/0"]
-    tags = {
-      Name = "icmp"
-    }
   }
 
   ingress {
@@ -90,9 +87,6 @@ resource "aws_security_group" "xdp_sg" {
     to_port     = 22
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
-    tags = {
-      Name = "ssh"
-    }
   }
 
   ingress {
@@ -101,9 +95,6 @@ resource "aws_security_group" "xdp_sg" {
     to_port     = 0    
     protocol    = -1 
     self = true
-    tags = {
-      Name = "SG"
-    }
   }
 
   egress {
@@ -120,7 +111,6 @@ resource "aws_placement_group" "xdp_pg" {
   name     = "xdp-pg"
   strategy = "cluster"
 }
-
 
 
 data "template_file" "install_trex" {
@@ -144,10 +134,10 @@ data "template_file" "linux_source" {
   # }
 }
 
-resource "aws_instance" "xdp_dut" {
-  ami           = "ami-0a7154091c5c6623e"
-  instance_type = "t2.micro"
-  key_name = "xdp681"
+resource "aws_instance" "trex" {
+  ami           = var.instance_ami
+  instance_type = var.instance_type
+  key_name = var.instance_key
 
   subnet_id                   = aws_subnet.xdp_public_subnet.id
   vpc_security_group_ids      = [aws_security_group.xdp_sg.id]
@@ -156,17 +146,18 @@ resource "aws_instance" "xdp_dut" {
   # Use below with c5n
   # placement_group = aws_placement_group.xdp_pg.id
 
-  user_data = join(“\n”, [data.template_file.install_tools.rendered, data.template_file.linux_source.rendered])
+  user_data = join("\n", [data.template_file.install_tools.rendered, data.template_file.install_trex.rendered])
 
+  
   tags = {
-    Name = var.dut_name
+    Name = var.d1_name
   }
 }
 
-resource "aws_instance" "trex" {
-  ami           = "ami-0a7154091c5c6623e"
-  instance_type = "t2.micro"
-  key_name = "xdp681"
+resource "aws_instance" "xdp_dut" {
+  ami           = var.instance_ami
+  instance_type = var.instance_type
+  key_name = var.instance_key
 
   subnet_id                   = aws_subnet.xdp_public_subnet.id
   vpc_security_group_ids      = [aws_security_group.xdp_sg.id]
@@ -174,10 +165,10 @@ resource "aws_instance" "trex" {
 
   # Use below with c5n
   # placement_group = aws_placement_group.xdp_pg.id
-  
-  user_data = data.template_file.install_trex.rendered
-  
+
+  user_data = join("\n", [data.template_file.install_tools.rendered, data.template_file.linux_source.rendered])
+
   tags = {
-    Name = var.traffic_name
+    Name = var.d2_name
   }
 }
