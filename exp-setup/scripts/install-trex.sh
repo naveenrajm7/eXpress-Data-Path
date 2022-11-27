@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# set hostname
+# hostname tRex
+
 # run as root
 # create trex dir
 mkdir -p /opt/trex

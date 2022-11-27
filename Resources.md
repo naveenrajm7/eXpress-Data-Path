@@ -56,3 +56,8 @@ The map changes dynamically according to the CPU bitmask to /sys/class/net/<dev>
 https://garycplin.blogspot.com/2017/06/linux-network-scaling-receives-packets.html
 
 Disable irqbalance ?
+
+
+### Facebook Katran
+
+https://github.com/facebookincubator/katran/issues/158
