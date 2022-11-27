@@ -1,5 +1,12 @@
-variable "instance_name" {
-  description = "Value of the Name tag for the EC2 instance"
+variable "dut_name" {
+  description = "XDP Device Under Test"
   type        = string
-  default     = "ExampleAppServerInstance"
+  default     = "XDP-DUT"
 }
+
+variable "traffic_name" {
+  description = "Cisco TRex Traffic Generator"
+  type        = string
+  default     = "tRex"
+}
+
