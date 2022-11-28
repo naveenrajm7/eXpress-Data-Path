@@ -1,9 +1,10 @@
 #!/bin/bash
 
-# set hostname
-# hostname tRex
-
 # run as root
+
+# set hostname
+hostname ${host_name}
+
 # create trex dir
 mkdir -p /opt/trex
 cd /opt/trex 

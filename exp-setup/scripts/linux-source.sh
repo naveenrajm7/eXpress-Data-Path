@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# set hostname
+hostname ${host_name}
+
 # https://wiki.ubuntu.com/Kernel/BuildYourOwnKernel
 
 # uncomment deb-src in /etc/apt/sources.list
@@ -25,21 +28,22 @@ sudo apt-get source -y linux-image-unsigned-$(uname -r)
 
 # Interaction needed for below commands
 
-# # inside kernel source
-# cd linux-5.15.0
+# # inside kernel source directory 
+cd ${linux_source_dir}
 
-# # modifying kernel config part, https://wiki.ubuntu.com/Kernel/BuildYourOwnKernel
-# chmod a+x debian/rules
-# chmod a+x debian/scripts/*
-# chmod a+x debian/scripts/misc/*
-# LANG=C fakeroot debian/rules clean
-# LANG=C fakeroot debian/rules editconfigs # you need to go through each (Y, Exit, Y, Exit..) or get a complaint about config later
+# modifying kernel config part, https://wiki.ubuntu.com/Kernel/BuildYourOwnKernel
+chmod a+x debian/rules
+chmod a+x debian/scripts/*
+chmod a+x debian/scripts/misc/*
+LANG=C fakeroot debian/rules clean
+# say no to edit configs
+echo n | LANG=C fakeroot debian/rules editconfigs 
 
 # # https://elixir.bootlin.com/linux/v5.15/source/samples/bpf/README.rst
 # # compile bpf samples
-# make oldconfig && make prepare
-# make headers_install
-# make VMLINUX_BTF=/sys/kernel/btf/vmlinux -C samples/bpf
+make oldconfig && make prepare
+make headers_install
+make VMLINUX_BTF=/sys/kernel/btf/vmlinux -C samples/bpf
 
 
 
