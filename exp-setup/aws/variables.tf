@@ -10,13 +10,13 @@ variable "aws_az" {
   default     = "ca-central-1a"
 }
 
-variable "ins1_name" {
+variable "d1_name" {
   description = "Cisco TRex Traffic Generator"
   type        = string
   default     = "tRex"
 }
 
-variable "ins2_name" {
+variable "d2_name" {
   description = "XDP Device Under Test"
   type        = string
   default     = "xdp-DUT"
@@ -25,7 +25,7 @@ variable "ins2_name" {
 variable "instance_type" {
   description = "EC2 Instance type"
   type = string
-  default = "t2.micro"
+  default = "t2.micro" # c5n.xlarge
 }
 
 variable "instance_ami" {
@@ -45,12 +45,33 @@ variable "instance_key" {
 }
 
 variable "vpc_cidr_block" {
-  description = "VPC subnet"
+  description = "VPC CIDR"
   type = string
-  default = "10.0.0.0/16"
+  default = "198.18.0.0/16" # RFC 2544, aws /15 not allowed
 }
 
 variable "public_subnet" {
   type = string
-  default = "10.0.1.0/24"
+  default = "198.18.0.0/16"
 }
+
+variable "nics" {
+  type = list(object({name = string,int_ips = list(string)}))
+  default = [
+    { 
+      name =  "trex"
+      int_ips = ["198.18.1.2", "198.18.100.2"]
+    },
+    {
+      name = "xdp_dut"
+      int_ips = ["198.18.1.1", "198.18.100.1"]
+    }
+  ]
+}
+
+
+
+
+# TO DO with c5.large
+# Placement group
+# NIC device 2 
