@@ -52,7 +52,17 @@ variable "vpc_cidr_block" {
 
 variable "public_subnet" {
   type = string
-  default = "198.18.0.0/16"
+  default = "198.18.60.0/24"
+}
+
+variable "private_subnet1" {
+  type = string
+  default = "198.18.1.0/24"
+}
+
+variable "private_subnet2" {
+  type = string
+  default = "198.18.2.0/24"
 }
 
 variable "nics" {
@@ -60,11 +70,11 @@ variable "nics" {
   default = [
     { 
       name =  "trex"
-      int_ips = ["198.18.1.2", "198.18.100.2"]
+      int_ips = ["198.18.1.11", "198.18.2.11"]
     },
     {
       name = "xdp_dut"
-      int_ips = ["198.18.1.1", "198.18.100.1"]
+      int_ips = ["198.18.1.10", "198.18.2.10"]
     }
   ]
 }

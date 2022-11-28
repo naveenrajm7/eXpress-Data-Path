@@ -42,10 +42,10 @@ sudo ./dpdk_setup_ports.py -i
 - version: 2
   interfaces: ['00:06.0', '00:07.0']
   port_info:
-      - ip: 198.18.1.2
-        default_gw: 198.18.1.1
-      - ip: 198.18.100.2
-        default_gw: 198.18.100.1
+      - ip: 198.18.1.11
+        default_gw: 198.18.1.10
+      - ip: 198.18.2.11
+        default_gw: 198.18.2.10
 
   platform:
       master_thread_id: 0
@@ -67,9 +67,16 @@ ln -s -f libc.a liblibc.a
 ### DUT
 
 sudo echo 1 > /proc/sys/net/ipv4/ip_forward
-sudo route add -net 16.0.0.0 netmask 255.0.0.0 gw 198.18.1.2
-sudo route add -net 48.0.0.0 netmask 255.0.0.0 gw 198.18.100.2
+sudo route add -net 16.0.0.0 netmask 255.0.0.0 gw 198.18.1.11
+sudo route add -net 48.0.0.0 netmask 255.0.0.0 gw 198.18.2.11
 
+
+
+
+### Multiple NIC issue
+
+* same subnet public - not working
+* different subnet private - not working
 
 ## Resources
 

@@ -5,6 +5,8 @@
 # set hostname
 hostname ${host_name}
 
+sudo apt-get update
+
 # get make (aws)
 sudo DEBIAN_FRONTEND=noninteractive apt-get install -y make
 

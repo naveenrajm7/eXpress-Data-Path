@@ -15,7 +15,6 @@ provider "aws" {
 
 
 ## TODO: 
-## Placement-group (cluster) - Need large machine 
 ## Network-Interface-Card  - Need large machine
 ## 
 
@@ -33,6 +32,26 @@ resource "aws_subnet" "xdp_public_subnet" {
 
   tags = {
     Name = "xdp-public-subnet"
+  }
+}
+
+resource "aws_subnet" "xdp_private_subnet1" {
+  vpc_id            = aws_vpc.xdp_vpc.id
+  cidr_block        = var.private_subnet1
+  availability_zone = var.aws_az
+
+  tags = {
+    Name = "xdp-private-subnet1"
+  }
+}
+
+resource "aws_subnet" "xdp_private_subnet2" {
+  vpc_id            = aws_vpc.xdp_vpc.id
+  cidr_block        = var.private_subnet2
+  availability_zone = var.aws_az
+
+  tags = {
+    Name = "xdp-private-subnet2"
   }
 }
 
@@ -130,20 +149,87 @@ data "template_file" "linux_source" {
   }
 }
 
+resource "aws_network_interface" "ti_0" {
+  subnet_id       = aws_subnet.xdp_public_subnet.id
+  security_groups = [aws_security_group.xdp_sg.id]
+
+  tags = {
+    Name = "tRex Int 0"
+  }
+}
+
+resource "aws_network_interface" "ti_1" {
+  subnet_id       = aws_subnet.xdp_private_subnet1.id
+  private_ips     = ["198.18.1.11"]
+  security_groups = [aws_security_group.xdp_sg.id]
+
+  tags = {
+    Name = "tRex Int 1"
+  }
+}
+
+resource "aws_network_interface" "ti_2" {
+  subnet_id       = aws_subnet.xdp_private_subnet2.id
+  private_ips     = ["198.18.2.11"]
+  security_groups = [aws_security_group.xdp_sg.id]
+
+  tags = {
+    Name = "tRex Int 2"
+  }
+}
+
+resource "aws_network_interface" "di_0" {
+  subnet_id       = aws_subnet.xdp_public_subnet.id
+  security_groups = [aws_security_group.xdp_sg.id]
+
+  tags = {
+    Name = "DUT Int 0"
+  }
+}
+
+resource "aws_network_interface" "di_1" {
+  subnet_id       = aws_subnet.xdp_private_subnet1.id
+  private_ips     = ["198.18.1.10"]
+  security_groups = [aws_security_group.xdp_sg.id]
+
+  tags = {
+    Name = "DUT Int 1"
+  }
+}
+
+resource "aws_network_interface" "di_2" {
+  subnet_id       = aws_subnet.xdp_private_subnet2.id
+  private_ips     = ["198.18.2.10"]
+  security_groups = [aws_security_group.xdp_sg.id]
+
+  tags = {
+    Name = "DUT Int 2"
+  }
+}
+
 resource "aws_instance" "trex" {
   ami           = var.instance_ami
   instance_type = var.instance_type
   key_name = var.instance_key
 
-  subnet_id                   = aws_subnet.xdp_public_subnet.id
-  vpc_security_group_ids      = [aws_security_group.xdp_sg.id]
-  associate_public_ip_address = true
-
   # Use below with c5n
   placement_group = aws_placement_group.xdp_pg.id
 
-  user_data = join("\n", [data.template_file.install_tools.rendered, data.template_file.install_trex.rendered])
+  network_interface {
+    network_interface_id = aws_network_interface.ti_0.id
+    device_index         = 0
+  }
 
+  network_interface {
+    network_interface_id = aws_network_interface.ti_1.id
+    device_index         = 1
+  }
+  network_interface {
+    network_interface_id = aws_network_interface.ti_2.id
+    device_index         = 2
+  }
+
+  user_data = join("\n", [data.template_file.install_tools.rendered, data.template_file.install_trex.rendered])
   
   tags = {
     Name = var.d1_name
@@ -155,60 +241,25 @@ resource "aws_instance" "xdp_dut" {
   instance_type = var.instance_type
   key_name = var.instance_key
 
-  subnet_id                   = aws_subnet.xdp_public_subnet.id
-  vpc_security_group_ids      = [aws_security_group.xdp_sg.id]
-  associate_public_ip_address = true
-
   # Use below with c5n
   placement_group = aws_placement_group.xdp_pg.id
+
+  network_interface {
+    network_interface_id = aws_network_interface.di_0.id
+    device_index         = 0
+  }
+  network_interface {
+    network_interface_id = aws_network_interface.di_1.id
+    device_index         = 1
+  }
+  network_interface {
+    network_interface_id = aws_network_interface.di_2.id
+    device_index         = 2
+  }
 
   user_data = join("\n", [data.template_file.install_tools.rendered, data.template_file.linux_source.rendered])
 
   tags = {
     Name = var.d2_name
-  }
-}
-
-resource "aws_network_interface" "ti_1" {
-  subnet_id       = aws_subnet.xdp_public_subnet.id
-  private_ips     = ["198.18.1.2"]
-  security_groups = [aws_security_group.xdp_sg.id]
-
-  attachment {
-    instance     = aws_instance.trex.id
-    device_index = 1
-  }
-}
-
-resource "aws_network_interface" "ti_2" {
-  subnet_id       = aws_subnet.xdp_public_subnet.id
-  private_ips     = ["198.18.100.2"]
-  security_groups = [aws_security_group.xdp_sg.id]
-
-  attachment {
-    instance     = aws_instance.trex.id
-    device_index = 2
-  }
-}
-
-resource "aws_network_interface" "di_1" {
-  subnet_id       = aws_subnet.xdp_public_subnet.id
-  private_ips     = ["198.18.1.1"]
-  security_groups = [aws_security_group.xdp_sg.id]
-
-  attachment {
-    instance     = aws_instance.xdp_dut.id
-    device_index = 1
-  }
-}
-
-resource "aws_network_interface" "di_2" {
-  subnet_id       = aws_subnet.xdp_public_subnet.id
-  private_ips     = ["198.18.100.1"]
-  security_groups = [aws_security_group.xdp_sg.id]
-
-  attachment {
-    instance     = aws_instance.xdp_dut.id
-    device_index = 2
   }
 }
