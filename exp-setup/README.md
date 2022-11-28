@@ -86,3 +86,4 @@ trex> start -f stl/udp_for_benchmarks.py --port 0 -m 1mpps -t packet_len=64,stre
 
 * Vagrant file - https://github.com/aojea/pytest-trex
 * Network Setup - https://promwad.com/news/cisco-trex-traffic-generator
+* https://satishdotpatel.github.io/trex-load-generator/

@@ -22,6 +22,54 @@ n – Network optimization
 
 
 
+## Configure
+
+```bash
+# bring link up
+sudo ip link set dev ens6 up
+# set ip address
+sudo ip addr add 198.18.1.2 dev ens6
+```
+
+### tRex
+
+**Configure Interface**
+```bash
+sudo ./dpdk_setup_ports.py -i
+```
+
+```yaml
+- version: 2
+  interfaces: ['00:06.0', '00:07.0']
+  port_info:
+      - ip: 198.18.1.2
+        default_gw: 198.18.1.1
+      - ip: 198.18.100.2
+        default_gw: 198.18.100.1
+
+  platform:
+      master_thread_id: 0
+      latency_thread_id: 1
+      dual_if:
+        - socket: 0
+          threads: [2,3]
+```
+
+**Start Server**
+
+For python3.9+ fix
+```
+cd /usr/lib/x86_64-linux-gnu/
+ln -s -f libc.a liblibc.a
+```
+
+
+### DUT
+
+sudo echo 1 > /proc/sys/net/ipv4/ip_forward
+sudo route add -net 16.0.0.0 netmask 255.0.0.0 gw 198.18.1.2
+sudo route add -net 48.0.0.0 netmask 255.0.0.0 gw 198.18.100.2
+
 
 ## Resources
 

@@ -25,7 +25,7 @@ variable "d2_name" {
 variable "instance_type" {
   description = "EC2 Instance type"
   type = string
-  default = "t2.micro" # c5n.xlarge
+  default = "c5n.xlarge" # t2.micro, c5n.xlarge
 }
 
 variable "instance_ami" {

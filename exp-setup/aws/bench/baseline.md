@@ -25,3 +25,54 @@ iperf Done.
 
 t2.micro 
 TCP ~1Gbps
+
+=====
+
+c5n.xlarge
+
+```bash
+[ ID] Interval           Transfer     Bitrate
+[  5]   0.00-60.00  sec  14.6 GBytes  2.10 Gbits/sec                  receiver
+[  8]   0.00-60.00  sec  14.6 GBytes  2.10 Gbits/sec                  receiver
+[ 10]   0.00-60.00  sec  14.6 GBytes  2.10 Gbits/sec                  receiver
+[ 12]   0.00-60.00  sec  14.6 GBytes  2.10 Gbits/sec                  receiver
+[ 14]   0.00-60.00  sec  14.6 GBytes  2.10 Gbits/sec                  receiver
+[ 16]   0.00-60.00  sec  14.6 GBytes  2.10 Gbits/sec                  receiver
+[ 18]   0.00-60.00  sec  14.6 GBytes  2.10 Gbits/sec                  receiver
+[ 20]   0.00-60.00  sec  14.6 GBytes  2.10 Gbits/sec                  receiver
+[ 22]   0.00-60.00  sec  14.6 GBytes  2.10 Gbits/sec                  receiver
+[ 24]   0.00-60.00  sec  14.6 GBytes  2.10 Gbits/sec                  receiver
+[SUM]   0.00-60.00  sec   146 GBytes  21.0 Gbits/sec                  receiver
+```
+
+```bash
+Test Complete. Summary Results:
+[ ID] Interval           Transfer     Bitrate         Retr
+[  5]   0.00-60.00  sec  14.6 GBytes  2.10 Gbits/sec    0             sender
+[  5]   0.00-60.00  sec  14.6 GBytes  2.10 Gbits/sec                  receiver
+[  7]   0.00-60.00  sec  14.6 GBytes  2.10 Gbits/sec    0             sender
+[  7]   0.00-60.00  sec  14.6 GBytes  2.10 Gbits/sec                  receiver
+[  9]   0.00-60.00  sec  14.6 GBytes  2.10 Gbits/sec    0             sender
+[  9]   0.00-60.00  sec  14.6 GBytes  2.10 Gbits/sec                  receiver
+[ 11]   0.00-60.00  sec  14.6 GBytes  2.10 Gbits/sec    0             sender
+[ 11]   0.00-60.00  sec  14.6 GBytes  2.10 Gbits/sec                  receiver
+[ 13]   0.00-60.00  sec  14.6 GBytes  2.10 Gbits/sec    0             sender
+[ 13]   0.00-60.00  sec  14.6 GBytes  2.10 Gbits/sec                  receiver
+[ 15]   0.00-60.00  sec  14.6 GBytes  2.10 Gbits/sec    0             sender
+[ 15]   0.00-60.00  sec  14.6 GBytes  2.10 Gbits/sec                  receiver
+[ 17]   0.00-60.00  sec  14.6 GBytes  2.10 Gbits/sec    0             sender
+[ 17]   0.00-60.00  sec  14.6 GBytes  2.10 Gbits/sec                  receiver
+[ 19]   0.00-60.00  sec  14.6 GBytes  2.10 Gbits/sec    0             sender
+[ 19]   0.00-60.00  sec  14.6 GBytes  2.10 Gbits/sec                  receiver
+[ 21]   0.00-60.00  sec  14.6 GBytes  2.10 Gbits/sec    0             sender
+[ 21]   0.00-60.00  sec  14.6 GBytes  2.10 Gbits/sec                  receiver
+[ 23]   0.00-60.00  sec  14.6 GBytes  2.10 Gbits/sec    0             sender
+[ 23]   0.00-60.00  sec  14.6 GBytes  2.10 Gbits/sec                  receiver
+[SUM]   0.00-60.00  sec   146 GBytes  21.0 Gbits/sec    0             sender
+[SUM]   0.00-60.00  sec   146 GBytes  21.0 Gbits/sec                  receiver
+CPU Utilization: local/sender 84.7% (2.8%u/81.9%s), remote/receiver 84.9% (1.1%u/83.8%s)
+```
+
+
+
+

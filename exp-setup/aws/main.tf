@@ -68,7 +68,7 @@ resource "aws_route_table_association" "xdp_public_1_rt_a" {
 }
 
 resource "aws_security_group" "xdp_sg" {
-  name   = "HTTP and SSH"
+  name   = "PING and SSH"
   vpc_id = aws_vpc.xdp_vpc.id
 
   ingress {
@@ -120,9 +120,6 @@ data "template_file" "install_trex" {
 
 data "template_file" "install_tools" {
   template = "${file("${path.module}/../scripts/install-tools.sh")}"
-  # vars = {
-  #   consul_address = "${aws_instance.consul.private_ip}"
-  # }
 }
 
 data "template_file" "linux_source" {
@@ -143,7 +140,7 @@ resource "aws_instance" "trex" {
   associate_public_ip_address = true
 
   # Use below with c5n
-  # placement_group = aws_placement_group.xdp_pg.id
+  placement_group = aws_placement_group.xdp_pg.id
 
   user_data = join("\n", [data.template_file.install_tools.rendered, data.template_file.install_trex.rendered])
 
@@ -163,7 +160,7 @@ resource "aws_instance" "xdp_dut" {
   associate_public_ip_address = true
 
   # Use below with c5n
-  # placement_group = aws_placement_group.xdp_pg.id
+  placement_group = aws_placement_group.xdp_pg.id
 
   user_data = join("\n", [data.template_file.install_tools.rendered, data.template_file.linux_source.rendered])
 
@@ -183,16 +180,16 @@ resource "aws_network_interface" "ti_1" {
   }
 }
 
-# resource "aws_network_interface" "ti_2" {
-#   subnet_id       = aws_subnet.xdp_public_subnet.id
-#   private_ips     = ["198.18.100.2"]
-#   security_groups = [aws_security_group.xdp_sg.id]
+resource "aws_network_interface" "ti_2" {
+  subnet_id       = aws_subnet.xdp_public_subnet.id
+  private_ips     = ["198.18.100.2"]
+  security_groups = [aws_security_group.xdp_sg.id]
 
-#   attachment {
-#     instance     = aws_instance.trex.id
-#     device_index = 2
-#   }
-# }
+  attachment {
+    instance     = aws_instance.trex.id
+    device_index = 2
+  }
+}
 
 resource "aws_network_interface" "di_1" {
   subnet_id       = aws_subnet.xdp_public_subnet.id
@@ -205,13 +202,13 @@ resource "aws_network_interface" "di_1" {
   }
 }
 
-# resource "aws_network_interface" "di_2" {
-#   subnet_id       = aws_subnet.xdp_public_subnet.id
-#   private_ips     = ["198.18.100.1"]
-#   security_groups = [aws_security_group.xdp_sg.id]
+resource "aws_network_interface" "di_2" {
+  subnet_id       = aws_subnet.xdp_public_subnet.id
+  private_ips     = ["198.18.100.1"]
+  security_groups = [aws_security_group.xdp_sg.id]
 
-#   attachment {
-#     instance     = aws_instance.xdp_dut.id
-#     device_index = 2
-#   }
-# }
+  attachment {
+    instance     = aws_instance.xdp_dut.id
+    device_index = 2
+  }
+}
