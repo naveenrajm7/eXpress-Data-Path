@@ -15,7 +15,7 @@ provider "aws" {
 
 
 ## TODO: 
-## Network-Interface-Card  - Need large machine
+## Network-Interface-Card  - Connectivity in Trex and DUT
 ## 
 
 resource "aws_vpc" "xdp_vpc" {
@@ -152,7 +152,7 @@ data "template_file" "linux_source" {
 resource "aws_network_interface" "ti_0" {
   subnet_id       = aws_subnet.xdp_public_subnet.id
   security_groups = [aws_security_group.xdp_sg.id]
-
+  private_ips     = ["198.18.60.11"]
   tags = {
     Name = "tRex Int 0"
   }
@@ -181,7 +181,7 @@ resource "aws_network_interface" "ti_2" {
 resource "aws_network_interface" "di_0" {
   subnet_id       = aws_subnet.xdp_public_subnet.id
   security_groups = [aws_security_group.xdp_sg.id]
-
+  private_ips     = ["198.18.60.10"]
   tags = {
     Name = "DUT Int 0"
   }
@@ -262,4 +262,16 @@ resource "aws_instance" "xdp_dut" {
   tags = {
     Name = var.d2_name
   }
+}
+
+resource "aws_eip" "trex_public_ip" {
+  vpc                       = true
+  network_interface         = aws_network_interface.ti_0.id
+  associate_with_private_ip = "198.18.60.11"
+}
+
+resource "aws_eip" "dut_public_ip" {
+  vpc                       = true
+  network_interface         = aws_network_interface.di_0.id
+  associate_with_private_ip = "198.18.60.10"
 }

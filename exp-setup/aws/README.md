@@ -78,6 +78,49 @@ sudo route add -net 48.0.0.0 netmask 255.0.0.0 gw 198.18.2.11
 * same subnet public - not working
 * different subnet private - not working
 
+* same subnet public - with os route changes - Not working
+https://aws.amazon.com/premiumsupport/knowledge-center/ec2-ubuntu-secondary-network-interface/
+
+use different table for next interface
+```yaml ens6 int1
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    ens6:
+      addresses:
+       - 198.18.1.11/16
+      dhcp4: no
+      routes:
+       - to: 0.0.0.0/0
+         via: 198.18.0.1 # Default gateway
+         table: 1000
+       - to: 198.18.1.11
+         via: 0.0.0.0
+         scope: link
+         table: 1000
+      routing-policy:
+        - from: 198.18.1.11
+          table: 1000
+```
+
+* Allow all traffic in security group - not working
+
+
+* Modify trex config default gateway to subnet gateway [2 private or 1 public (need to do OS route update)]
+https://groups.google.com/g/trex-tgn/c/30o7wrNwcXw
+- Try iperf
+https://superuser.com/questions/1682859/how-to-run-iperf3-throughput-test-for-multiple-client-interfaces-on-same-machine
+Pending
+
+* Test using trex ping 
+https://trex-tgn.cisco.com/trex/doc/trex_stateless.html
+See if reachability is the problem or the src and dest ips are the problem
+
+* If ping works , the use xdp-paper script to change the src & dest ip to normal ones and check 
+
+
+
 ## Resources
 
 [AWS Enhanced Networking](https://aws.amazon.com/premiumsupport/knowledge-center/enable-configure-enhanced-networking/)
