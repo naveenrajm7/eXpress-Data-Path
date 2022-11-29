@@ -162,6 +162,8 @@ resource "aws_network_interface" "ti_1" {
   subnet_id       = aws_subnet.xdp_private_subnet1.id
   private_ips     = ["198.18.1.11"]
   security_groups = [aws_security_group.xdp_sg.id]
+  # Important: For sending custom packets
+  source_dest_check = false
 
   tags = {
     Name = "tRex Int 1"
@@ -172,6 +174,8 @@ resource "aws_network_interface" "ti_2" {
   subnet_id       = aws_subnet.xdp_private_subnet2.id
   private_ips     = ["198.18.2.11"]
   security_groups = [aws_security_group.xdp_sg.id]
+  # Important: For sending custom packets
+  source_dest_check = false
 
   tags = {
     Name = "tRex Int 2"
@@ -181,7 +185,7 @@ resource "aws_network_interface" "ti_2" {
 resource "aws_network_interface" "di_0" {
   subnet_id       = aws_subnet.xdp_public_subnet.id
   security_groups = [aws_security_group.xdp_sg.id]
-  private_ips     = ["198.18.60.10"]
+  private_ips     = ["198.18.60.10"] 
   tags = {
     Name = "DUT Int 0"
   }
@@ -191,7 +195,8 @@ resource "aws_network_interface" "di_1" {
   subnet_id       = aws_subnet.xdp_private_subnet1.id
   private_ips     = ["198.18.1.10"]
   security_groups = [aws_security_group.xdp_sg.id]
-
+  # Important: For sending custom packets
+  source_dest_check = false
   tags = {
     Name = "DUT Int 1"
   }
@@ -201,7 +206,8 @@ resource "aws_network_interface" "di_2" {
   subnet_id       = aws_subnet.xdp_private_subnet2.id
   private_ips     = ["198.18.2.10"]
   security_groups = [aws_security_group.xdp_sg.id]
-
+  # Important: For sending custom packets
+  source_dest_check = false
   tags = {
     Name = "DUT Int 2"
   }
