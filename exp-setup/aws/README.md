@@ -63,6 +63,30 @@ cd /usr/lib/x86_64-linux-gnu/
 ln -s -f libc.a liblibc.a
 ```
 
+Launch the TRex server in Stateless mode:
+
+```bash
+cd v3.XX
+vagrant@tRex:/opt/trex/v3.00$ sudo ./t-rex-64 -i
+```
+
+Launch the TRex console
+
+```bash
+vagrant@tRex:/opt/trex/v3.00$ ./trex-console
+Server Info:
+
+Server version:   v3.00 @ STL
+Server mode:      Stateless
+Server CPU:       1 x Intel(R) Core(TM) i5-6360U CPU @ 2.00GHz
+Ports count:      2 x 1Gbps @ 82540EM Gigabit Ethernet Controller
+```
+
+Start traffic
+```
+trex> start -f stl/udp_for_benchmarks.py --port 0 -m 1mpps -t packet_len=64,stream_count=1
+```
+
 
 ### DUT
 
@@ -118,6 +142,9 @@ https://trex-tgn.cisco.com/trex/doc/trex_stateless.html
 See if reachability is the problem or the src and dest ips are the problem
 
 * If ping works , the use xdp-paper script to change the src & dest ip to normal ones and check 
+Ping works , changing src & dest ip to whatever doesn't work
+
+
 
 
 
