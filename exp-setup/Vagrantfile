@@ -10,15 +10,16 @@ Vagrant.configure("2") do |config|
     trex.vm.box = "bento/ubuntu-22.04"
     trex.vm.hostname = "tRex"
 
-    trex.vm.network "private_network", ip: "192.168.253.106",
+    # Private IPs
+    trex.vm.network "private_network", ip: "198.18.1.11",
         virtualbox__intnet: "net1", mac: "080027112201"
-    trex.vm.network "private_network", ip: "192.168.254.106",
+    trex.vm.network "private_network", ip: "198.18.2.11",
         virtualbox__intnet: "net2", mac: "080027112202"
     # Forward Trex Ports
     trex.vm.network "forwarded_port", guest: 4500, host: 4500
     trex.vm.network "forwarded_port", guest: 4501, host: 4501
-    # ssh
-    trex.vm.network "private_network", ip: "192.168.56.106"
+    # ssh, NAT 
+    trex.vm.network "private_network", ip: "198.18.60.11"
     trex.vm.network "forwarded_port", guest: 22, host: 2211, id: 'ssh'
 
     trex.vm.provider "virtualbox" do |vb|
@@ -38,13 +39,14 @@ Vagrant.configure("2") do |config|
     dut.vm.box = "bento/ubuntu-22.04"
     dut.vm.hostname = "xdp-DUT"
 
-    dut.vm.network "private_network", ip: "192.168.253.107",
+    # private IPs 
+    dut.vm.network "private_network", ip: "198.18.1.10",
         virtualbox__intnet: "net1", mac: "080027445501"
-    dut.vm.network "private_network", ip: "192.168.254.107",
+    dut.vm.network "private_network", ip: "198.18.2.10",
         virtualbox__intnet: "net2", mac: "080027445502"
 
-    # ssh
-    dut.vm.network "private_network", ip: "192.168.56.107"
+    # ssh, NAT 
+    dut.vm.network "private_network", ip: "198.18.60.10"
     dut.vm.network "forwarded_port", guest: 22, host: 2212, id: 'ssh'
 
     dut.vm.provider "virtualbox" do |vb|
