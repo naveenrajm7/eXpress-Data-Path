@@ -29,6 +29,9 @@ n – Network optimization
 sudo ip link set dev ens6 up
 # set ip address
 sudo ip addr add 198.18.1.2 dev ens6
+# set promisc mode
+sudo ip link set ens6 promisc on
+
 ```
 
 ### tRex
@@ -144,7 +147,24 @@ See if reachability is the problem or the src and dest ips are the problem
 * If ping works , the use xdp-paper script to change the src & dest ip to normal ones and check 
 Ping works , changing src & dest ip to whatever doesn't work
 
+* Try turing promisc mode on for all interface - Fail
+ Its okay if not turned on , AWS NIC properties is powerful
 
+* Source / Destination check ? -- PASS
+
+Disable source and destination check 
+
+
+
+### XDP in ENI issue
+
+```bash
+# set MTU with in XDP prog limit
+ip link set dev <interface> mtu 3498
+# Number of RX/TX queues must be half the available channels, make just 1 for 1 CPU. 2 for 2 CPU
+# Must be half of number of CPU fpr this to work
+ethtool -L <interface> combined 1
+```
 
 
 
@@ -155,3 +175,11 @@ Ping works , changing src & dest ip to whatever doesn't work
 [AWS Placement group](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html)
 
 [XDP on AWS](https://trying2adult.com/what-is-xdp-and-how-do-you-use-it-in-linux-amazon-ec2-example/)
+
+[AWS Elastic network interfaces](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html)
+
+[AWS EC2 Bridge Networking](https://yurmagccie.wordpress.com/2019/08/13/aws-networking-part-2-bridging-and-routing/)
+
+[100Gpbs of Network bandwidth in AWS](https://aws.amazon.com/about-aws/whats-new/2018/11/introducing-amazon-ec2-c5n-instances/)
+
+[AWS Network Performance](https://toonk.io/aws-network-performance-deep-dive/index.html)

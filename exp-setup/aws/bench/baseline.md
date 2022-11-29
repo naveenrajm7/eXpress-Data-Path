@@ -73,6 +73,64 @@ Test Complete. Summary Results:
 CPU Utilization: local/sender 84.7% (2.8%u/81.9%s), remote/receiver 84.9% (1.1%u/83.8%s)
 ```
 
+=====
+
+tRex
+
+trex>start -f stl/udp_for_benchmarks.py --port 0 -m 100% -t packet_len=64,stream_count=1
+
+trex>stats
+Global Statistics
+
+connection   : localhost, Port 4501                       total_tx_L2  : 297.89 Mbps                    
+version      : STL @ v3.00                                total_tx_L1  : 390.98 Mbps                    
+cpu_util.    : 100.0% @ 1 cores (1 per dual port)         total_rx     : 297.88 Mbps                    
+rx_cpu_util. : 1.63% / 581.81 Kpps                        total_pps    : 581.81 Kpps                    
+async_util.  : 0% / 0.62 bps                              drop_rate    : 0 bps                          
+total_cps.   : 0 cps                                      queue_full   : 0 pkts                         
+
+Port Statistics
+
+   port    |         0         |         1         |       total       
+-----------+-------------------+-------------------+------------------
+owner      |            ubuntu |            ubuntu |                   
+link       |                UP |                UP |                   
+state      |      TRANSMITTING |              IDLE |                   
+speed      |        16.38 Gb/s |        16.38 Gb/s |                   
+CPU util.  |            100.0% |              0.0% |                   
+--         |                   |                   |                   
+Tx bps L2  |       297.89 Mbps |        180.39 bps |       297.89 Mbps 
+Tx bps L1  |       390.98 Mbps |        258.82 bps |       390.98 Mbps 
+Tx pps     |       581.81 Kpps |          0.49 pps |       581.81 Kpps 
+Line Util. |            2.39 % |               0 % |                   
+---        |                   |                   |                   
+Rx bps     |        180.39 bps |       297.88 Mbps |       297.88 Mbps 
+Rx pps     |          0.49 pps |        581.8 Kpps |        581.8 Kpps 
+----       |                   |                   |                   
+opackets   |          85499354 |                19 |          85499373 
+ipackets   |                19 |          85494756 |          85494775 
+obytes     |        5471958314 |               874 |        5471959188 
+ibytes     |               874 |        5471664042 |        5471664916 
+tx-pkts    |        85.5 Mpkts |           19 pkts |        85.5 Mpkts 
+rx-pkts    |           19 pkts |       85.49 Mpkts |       85.49 Mpkts 
+tx-bytes   |           5.47 GB |             874 B |           5.47 GB 
+rx-bytes   |             874 B |           5.47 GB |           5.47 GB 
+-----      |                   |                   |                   
+oerrors    |                 0 |                 0 |                 0 
+ierrors    |                 0 |             2,731 |             2,731 
 
 
+==========
+```bash
+trex>start -f stl/udp_for_benchmarks.py --port 0 -m 100mpps -t packet_len=64,stream_count=1
+Removing all streams from port(s) [0._]:                     [SUCCESS]
+Attaching 1 streams to port(s) [0._]:                        [SUCCESS]
+Starting traffic on port(s) [0._]:                           [FAILED]
+start - Port 0 : *** Expected L1 B/W: '67.2 Gbps' exceeds port line rate: '16.384 Gbps'
 
+trex>start -f stl/udp_for_benchmarks.py --port 0 -m 25mpps -t packet_len=64,stream_count=1
+Removing all streams from port(s) [0._]:                     [SUCCESS]
+Attaching 1 streams to port(s) [0._]:                        [SUCCESS]
+Starting traffic on port(s) [0._]:                           [FAILED]
+start - Port 0 : *** Expected L1 B/W: '16.8 Gbps' exceeds port line rate: '16.384 Gbps'
+```
