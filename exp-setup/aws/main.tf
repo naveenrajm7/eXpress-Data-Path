@@ -207,6 +207,18 @@ resource "aws_network_interface" "di_2" {
   }
 }
 
+resource "aws_eip" "trex_public_ip" {
+  vpc                       = true
+  network_interface         = aws_network_interface.ti_0.id
+  associate_with_private_ip = "198.18.60.11"
+}
+
+resource "aws_eip" "dut_public_ip" {
+  vpc                       = true
+  network_interface         = aws_network_interface.di_0.id
+  associate_with_private_ip = "198.18.60.10"
+}
+
 resource "aws_instance" "trex" {
   ami           = var.instance_ami
   instance_type = var.instance_type
@@ -262,16 +274,4 @@ resource "aws_instance" "xdp_dut" {
   tags = {
     Name = var.d2_name
   }
-}
-
-resource "aws_eip" "trex_public_ip" {
-  vpc                       = true
-  network_interface         = aws_network_interface.ti_0.id
-  associate_with_private_ip = "198.18.60.11"
-}
-
-resource "aws_eip" "dut_public_ip" {
-  vpc                       = true
-  network_interface         = aws_network_interface.di_0.id
-  associate_with_private_ip = "198.18.60.10"
 }
