@@ -1,5 +1,4 @@
 
-
 ## tRex
 
 start -f stl/udp_for_benchmarks.py --port 0 -m 24mpps -t packet_len=64,stream_count=1
@@ -45,4 +44,9 @@ RXQ stats       RXQ:CPU pps         issue-pps
 rx_queue_index    0:0   582609      0          
 rx_queue_index    0:sum 582609     
 ```
+
+
+
+
+===================================================
 
