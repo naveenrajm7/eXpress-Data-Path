@@ -25,6 +25,15 @@ https://garycplin.blogspot.com/2017/06/linux-network-scaling-receives-packets.ht
 - https://github.com/Netronome/bpf-samples/tree/master/programmable_rss
 
 
+* [Kernel RSS](https://www.kernel.org/doc/Documentation/networking/scaling.txt)
+
+* [AWS ENI RSS](https://github.com/amzn/amzn-drivers/blob/master/kernel/linux/ena/ENA_Linux_Best_Practices.rst)
+
+```bash
+sudo ethtool -L DEVNAME combined N
+```
+
+
 *control how many cpus process packets for a given interface*
 
 **Ethernet flow control**
@@ -204,4 +213,13 @@ XDP-RX CPU      total   81681
 RXQ stats       RXQ:CPU pps         issue-pps  
 rx_queue_index    0:0   81681       0          
 rx_queue_index    0:sum 81681      
+```
+
+
+
+### Testing 
+
+Q: Where can I see the ENA device stats
+```
+A: ethtool -S DEVNAME
 ```
