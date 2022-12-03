@@ -138,6 +138,53 @@ Starting traffic on port(s) [0._]:                           [FAILED]
 start - Port 0 : *** Expected L1 B/W: '16.8 Gbps' exceeds port line rate: '16.384 Gbps'
 ```
 
+===============
+## c5n.2xlarge
+
+trex>start -f stl/udp_for_benchmarks.py --port 0 -m 100% -d 30 -t packet_len=64,stream_count=1
+trex>stats
+Global Statistics
+
+connection   : localhost, Port 4501                       total_tx_L2  : 229.87 Mbps                    
+version      : STL @ v3.00                                total_tx_L1  : 301.71 Mbps                    
+cpu_util.    : 99.99% @ 1 cores (1 per dual port)         total_rx     : 229.86 Mbps                    
+rx_cpu_util. : 1.14% / 448.94 Kpps                        total_pps    : 448.97 Kpps                    
+async_util.  : 0% / 1.2 bps                               drop_rate    : 0 bps                          
+total_cps.   : 0 cps                                      queue_full   : 7,256,929 pkts                 
+
+Port Statistics
+
+   port    |         0         |         1         |       total       
+-----------+-------------------+-------------------+------------------
+owner      |            ubuntu |            ubuntu |                   
+link       |                UP |                UP |                   
+state      |      TRANSMITTING |              IDLE |                   
+speed      |        16.38 Gb/s |        16.38 Gb/s |                   
+CPU util.  |            99.99% |              0.0% |                   
+--         |                   |                   |                   
+Tx bps L2  |       229.87 Mbps |          0.04 bps |       229.87 Mbps 
+Tx bps L1  |       301.71 Mbps |          0.06 bps |       301.71 Mbps 
+Tx pps     |       448.97 Kpps |             0 pps |       448.97 Kpps 
+Line Util. |            1.84 % |               0 % |                   
+---        |                   |                   |                   
+Rx bps     |          0.04 bps |       229.86 Mbps |       229.86 Mbps 
+Rx pps     |             0 pps |       448.94 Kpps |       448.94 Kpps 
+----       |                   |                   |                   
+opackets   |          14345798 |                 1 |          14345799 
+ipackets   |                 1 |          14344783 |          14344784 
+obytes     |         918131054 |                46 |         918131100 
+ibytes     |                46 |         918066094 |         918066140 
+tx-pkts    |       14.35 Mpkts |            1 pkts |       14.35 Mpkts 
+rx-pkts    |            1 pkts |       14.34 Mpkts |       14.34 Mpkts 
+tx-bytes   |         918.13 MB |              46 B |         918.13 MB 
+rx-bytes   |              46 B |         918.07 MB |         918.07 MB 
+-----      |                   |                   |                   
+oerrors    |                 0 |                 0 |                 0 
+ierrors    |                 0 |                 0 |                 0 
+
+
+
+
 
 
 ======================================
@@ -145,3 +192,19 @@ start - Port 0 : *** Expected L1 B/W: '16.8 Gbps' exceeds port line rate: '16.38
 ## c5n.18large
 
 
+### iperf
+
+ubuntu@tRex:/opt/trex/v3.00$ iperf3 -s -p 8001
+
+
+
+ubuntu@xdp-DUT:~/$ iperf3 -c 198.18.60.11 -P 10 -i 1 -t 30 -V -p 8001
+
+
+
+
+### tRex
+
+trex>start -f stl/udp_for_benchmarks.py --port 0 -m 100% -d 30 -t packet_len=64,stream_count=1
+trex>stats
+trex>start -f stl/udp_for_benchmarks.py --port 0 -m 100mpps -t packet_len=64,stream_count=1
