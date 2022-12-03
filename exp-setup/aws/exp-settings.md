@@ -3,12 +3,18 @@
 
 ## tRex
 
+
+```
+cd /usr/lib/x86_64-linux-gnu/
+sudo ln -s -f libc.a liblibc.a
+```
+
 **Configure Interface**
 ```bash
 sudo ./dpdk_setup_ports.py -i
 ```
 
-```yaml
+```yaml /etc/trex_cfg.yaml
 - version: 2
   interfaces: ['00:06.0', '00:07.0']
   port_info:
@@ -25,10 +31,7 @@ sudo ./dpdk_setup_ports.py -i
           threads: [2,3]
 ```
 
-```
-cd /usr/lib/x86_64-linux-gnu/
-ln -s -f libc.a liblibc.a
-```
+
 
 Launch the TRex server in Stateless mode:
 
@@ -61,9 +64,43 @@ sudo route add -net 48.0.0.0 netmask 255.0.0.0 gw 198.18.2.11
 
 ```bash
 # set MTU with in XDP prog limit
-ip link set dev <interface> mtu 3498
+sudo ip link set dev ens6 mtu 3498
+sudo ip link set dev ens7 mtu 3498
 # Number of RX/TX queues must be half the available channels, make just 1 for 1 CPU. 2 for 2 CPU
 # Must be half of number of CPU fpr this to work
-ethtool -L <interface> combined 1
+
+# increases number of queue per interface (NIC device)
+sudo ethtool -L ens6 combined X
+sudo ethtool -L ens7 combined X
+
+# To check RX queuses
+sudo ethtool -l <interface>
 ```
 
+```bash
+Script to setup ethtool filter steering to RX-queue
+# Not suppeorted in AWS ENI
+ethtool -N $IFACE flow-type udp4 dst-port $port action $ring
+ethtool -N ens6 flow-type udp4 dst-port 12 action 0
+
+# try this
+#  spread processing evenly between first 2 RX queues
+sudo ethtool -X ens6 equal 2
+
+# check effect 
+sudo ethtool -x ens6
+
+# Not able to steer packets . Maybe its too low for each cpu
+# Try The big machine
+
+
+
+# RPS (Recieve packet steering)
+/sys/class/net/<device>/queues/<rx-queue>/rps_cpus
+```
+
+
+Eureka!!
+
+Eureka1 : AWS ENI src/dest check
+Eureka2 : Change port to change hash to change RX and hence change CPU which process the packets
