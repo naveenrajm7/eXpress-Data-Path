@@ -37,7 +37,7 @@ Launch the TRex server in Stateless mode:
 
 ```bash
 cd v3.XX
-vagrant@tRex:/opt/trex/v3.00$ sudo ./t-rex-64 -i
+vagrant@tRex:/opt/trex/v3.00$ sudo ./t-rex-64 -c 6 -i 
 ```
 
 Launch the TRex console
@@ -104,3 +104,12 @@ Eureka!!
 
 Eureka1 : AWS ENI src/dest check
 Eureka2 : Change port to change hash to change RX and hence change CPU which process the packets
+
+
+NIC Speed reported by ENA
+Same Issue : https://groups.google.com/g/trex-tgn/c/5yW_e73aVY4
+Speed not reported : https://github.com/amzn/amzn-drivers/issues/61
+Speed commit : https://github.com/amzn/amzn-drivers/commit/a485656091e2c826c55b2202f72a81ac435ba2e8#diff-dd54c4347e910470522e1c87845d0f6c99b387f8bfc660fec0ee8ca63614c1cc
+Speed code : link->speed https://github.com/amzn/amzn-drivers/blob/master/kernel/linux/ena/ena_ethtool.c
+
+ENA DPDK : https://doc.dpdk.org/guides/nics/ena.html

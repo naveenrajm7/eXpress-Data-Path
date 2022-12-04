@@ -1,5 +1,10 @@
 # Baseline speed
 
+```bash
+sudo ./t-rex-64 -c 6 -i 
+```
+where the -c argument is the number of threads to run (max is num_cores -2, as t-rex uses two threads to do other work).
+
 
 ## c5n.xlarge
 
@@ -138,6 +143,49 @@ Starting traffic on port(s) [0._]:                           [FAILED]
 start - Port 0 : *** Expected L1 B/W: '16.8 Gbps' exceeds port line rate: '16.384 Gbps'
 ```
 
+2 cores
+```
+trex>stats
+Global Statistics
+
+connection   : localhost, Port 4501                       total_tx_L2  : 562.15 Mbps                    
+version      : STL @ v3.00                                total_tx_L1  : 737.82 Mbps                    
+cpu_util.    : 100.0% @ 2 cores (2 per dual port)         total_rx     : 421.73 Mbps                    
+rx_cpu_util. : 0.0% / 0 pps                               total_pps    : 1.1 Mpps                       
+async_util.  : 0% / 0.54 bps                              drop_rate    : 140.41 Mbps                    
+total_cps.   : 0 cps                                      queue_full   : 0 pkts                         
+
+Port Statistics
+
+   port    |         0         |         1         |       total       
+-----------+-------------------+-------------------+------------------
+owner      |            ubuntu |            ubuntu |                   
+link       |                UP |                UP |                   
+state      |      TRANSMITTING |              IDLE |                   
+speed      |        16.38 Gb/s |        16.38 Gb/s |                   
+CPU util.  |            100.0% |              0.0% |                   
+--         |                   |                   |                   
+Tx bps L2  |       562.15 Mbps |             0 bps |       562.15 Mbps 
+Tx bps L1  |       737.82 Mbps |             0 bps |       737.82 Mbps 
+Tx pps     |          1.1 Mpps |             0 pps |          1.1 Mpps 
+Line Util. |             4.5 % |               0 % |                   
+---        |                   |                   |                   
+Rx bps     |             0 bps |       421.73 Mbps |       421.73 Mbps 
+Rx pps     |             0 pps |        823.7 Kpps |        823.7 Kpps 
+----       |                   |                   |                   
+opackets   |          63929730 |                 0 |          63929730 
+ipackets   |                 2 |          48107939 |          48107941 
+obytes     |        4091502720 |                 0 |        4091502720 
+ibytes     |                92 |        3078908060 |        3078908152 
+tx-pkts    |       63.93 Mpkts |            0 pkts |       63.93 Mpkts 
+rx-pkts    |            2 pkts |       48.11 Mpkts |       48.11 Mpkts 
+tx-bytes   |           4.09 GB |               0 B |           4.09 GB 
+rx-bytes   |              92 B |           3.08 GB |           3.08 GB 
+-----      |                   |                   |                   
+oerrors    |                 0 |                 0 |                 0 
+ierrors    |                 0 |             4,991 |             4,991 
+```
+
 ===============
 ## c5n.2xlarge
 
@@ -196,15 +244,109 @@ ierrors    |                 0 |                 0 |                 0
 
 ubuntu@tRex:/opt/trex/v3.00$ iperf3 -s -p 8001
 
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bitrate
+[  5]   0.00-30.04  sec  8.05 GBytes  2.30 Gbits/sec                  receiver
+[  8]   0.00-30.04  sec  8.05 GBytes  2.30 Gbits/sec                  receiver
+[ 10]   0.00-30.04  sec  8.05 GBytes  2.30 Gbits/sec                  receiver
+[ 12]   0.00-30.04  sec  8.05 GBytes  2.30 Gbits/sec                  receiver
+[ 14]   0.00-30.04  sec  8.05 GBytes  2.30 Gbits/sec                  receiver
+[ 16]   0.00-30.04  sec  8.05 GBytes  2.30 Gbits/sec                  receiver
+[ 18]   0.00-30.04  sec  8.05 GBytes  2.30 Gbits/sec                  receiver
+[ 20]   0.00-30.04  sec  8.05 GBytes  2.30 Gbits/sec                  receiver
+[ 22]   0.00-30.04  sec  8.05 GBytes  2.30 Gbits/sec                  receiver
+[ 24]   0.00-30.04  sec  8.05 GBytes  2.30 Gbits/sec                  receiver
+[SUM]   0.00-30.04  sec  80.5 GBytes  23.0 Gbits/sec                  receiver
 
 
 ubuntu@xdp-DUT:~/$ iperf3 -c 198.18.60.11 -P 10 -i 1 -t 30 -V -p 8001
 
+- - - - - - - - - - - - - - - - - - - - - - - - -
+Test Complete. Summary Results:
+[ ID] Interval           Transfer     Bitrate         Retr
+[  5]   0.00-30.00  sec  8.05 GBytes  2.30 Gbits/sec    0             sender
+[  5]   0.00-30.04  sec  8.05 GBytes  2.30 Gbits/sec                  receiver
+[  7]   0.00-30.00  sec  8.05 GBytes  2.30 Gbits/sec    0             sender
+[  7]   0.00-30.04  sec  8.05 GBytes  2.30 Gbits/sec                  receiver
+[  9]   0.00-30.00  sec  8.05 GBytes  2.30 Gbits/sec    0             sender
+[  9]   0.00-30.04  sec  8.05 GBytes  2.30 Gbits/sec                  receiver
+[ 11]   0.00-30.00  sec  8.05 GBytes  2.30 Gbits/sec    0             sender
+[ 11]   0.00-30.04  sec  8.05 GBytes  2.30 Gbits/sec                  receiver
+[ 13]   0.00-30.00  sec  8.05 GBytes  2.30 Gbits/sec    0             sender
+[ 13]   0.00-30.04  sec  8.05 GBytes  2.30 Gbits/sec                  receiver
+[ 15]   0.00-30.00  sec  8.05 GBytes  2.30 Gbits/sec    0             sender
+[ 15]   0.00-30.04  sec  8.05 GBytes  2.30 Gbits/sec                  receiver
+[ 17]   0.00-30.00  sec  8.05 GBytes  2.30 Gbits/sec    0             sender
+[ 17]   0.00-30.04  sec  8.05 GBytes  2.30 Gbits/sec                  receiver
+[ 19]   0.00-30.00  sec  8.05 GBytes  2.30 Gbits/sec    0             sender
+[ 19]   0.00-30.04  sec  8.05 GBytes  2.30 Gbits/sec                  receiver
+[ 21]   0.00-30.00  sec  8.05 GBytes  2.30 Gbits/sec    0             sender
+[ 21]   0.00-30.04  sec  8.05 GBytes  2.30 Gbits/sec                  receiver
+[ 23]   0.00-30.00  sec  8.05 GBytes  2.30 Gbits/sec    0             sender
+[ 23]   0.00-30.04  sec  8.05 GBytes  2.30 Gbits/sec                  receiver
+[SUM]   0.00-30.00  sec  80.5 GBytes  23.0 Gbits/sec    0             sender
+[SUM]   0.00-30.04  sec  80.5 GBytes  23.0 Gbits/sec                  receiver
+CPU Utilization: local/sender 99.8% (1.0%u/98.8%s), remote/receiver 85.2% (3.7%u/81.5%s)
 
 
 
 ### tRex
 
+```bash
 trex>start -f stl/udp_for_benchmarks.py --port 0 -m 100% -d 30 -t packet_len=64,stream_count=1
+
 trex>stats
+Global Statistics
+
+connection   : localhost, Port 4501                       total_tx_L2  : 293.89 Mbps                    
+version      : STL @ v3.00                                total_tx_L1  : 385.6 Mbps                     
+cpu_util.    : 97.81% @ 1 cores (1 per dual port)         total_rx     : 293.89 Mbps                    
+rx_cpu_util. : 1.12% / 574.01 Kpps                        total_pps    : 573.17 Kpps                    
+async_util.  : 0% / 3.64 bps                              drop_rate    : 0 bps                          
+total_cps.   : 0 cps                                      queue_full   : 0 pkts                         
+
+Port Statistics
+
+   port    |         0         |         1         |       total       
+-----------+-------------------+-------------------+------------------
+owner      |            ubuntu |            ubuntu |                   
+link       |                UP |                UP |                   
+state      |      TRANSMITTING |              IDLE |                   
+speed      |        16.38 Gb/s |        16.38 Gb/s |                   
+CPU util.  |            97.81% |              0.0% |                   
+--         |                   |                   |                   
+Tx bps L2  |       293.89 Mbps |             0 bps |       293.89 Mbps 
+Tx bps L1  |        385.6 Mbps |             0 bps |        385.6 Mbps 
+Tx pps     |       573.17 Kpps |             0 pps |       573.17 Kpps 
+Line Util. |            2.35 % |               0 % |                   
+---        |                   |                   |                   
+Rx bps     |             0 bps |       293.89 Mbps |       293.89 Mbps 
+Rx pps     |             0 pps |       574.01 Kpps |       574.01 Kpps 
+----       |                   |                   |                   
+opackets   |          24558637 |                 3 |          24558640 
+ipackets   |                 3 |          24558534 |          24558537 
+obytes     |        1571752714 |               138 |        1571752852 
+ibytes     |               138 |        1571746122 |        1571746260 
+tx-pkts    |       24.56 Mpkts |            3 pkts |       24.56 Mpkts 
+rx-pkts    |            3 pkts |       24.56 Mpkts |       24.56 Mpkts 
+tx-bytes   |           1.57 GB |             138 B |           1.57 GB 
+rx-bytes   |             138 B |           1.57 GB |           1.57 GB 
+-----      |                   |                   |                   
+oerrors    |                 0 |                 0 |                 0 
+ierrors    |                 0 |                 0 |                 0 
+
+
+
 trex>start -f stl/udp_for_benchmarks.py --port 0 -m 100mpps -t packet_len=64,stream_count=1
+
+Removing all streams from port(s) [0._]:                     [SUCCESS]
+
+
+Attaching 1 streams to port(s) [0._]:                        [SUCCESS]
+
+
+Starting traffic on port(s) [0._]:                           [FAILED]
+
+
+start - Port 0 : *** Expected L1 B/W: '67.2 Gbps' exceeds port line rate: '16.384 Gbps'
+```
