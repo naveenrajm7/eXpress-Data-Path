@@ -71,3 +71,7 @@ dkms.conf
 *.log
 *.out
 *.gz
+*.toc
+
+# Outputs
+report/*.pdf
