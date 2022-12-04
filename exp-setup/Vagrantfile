@@ -57,7 +57,7 @@ Vagrant.configure("2") do |config|
     end
 
     dut.vm.provision "shell", path: "scripts/install-tools.sh"
-    dut.vm.provision "shell", path: "scripts/linux-source.sh"
+    dut.vm.provision "shell", path: "scripts/linux-source.sh", env: {"linux_source_dir" => "linux-5.15.0"}
 
   end
 
