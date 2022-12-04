@@ -1,13 +1,13 @@
 variable "aws_region" {
   description = "AWS Region"
   type        = string
-  default     = "ca-central-1"
+  default     = "us-east-1"
 }
 
 variable "aws_az" {
   description = "Availability zone"
   type        = string
-  default     = "ca-central-1a"
+  default     = "us-east-1a"
 }
 
 variable "d1_name" {
@@ -25,13 +25,13 @@ variable "d2_name" {
 variable "instance_type" {
   description = "EC2 Instance type"
   type = string
-  default = "c5n.xlarge" # t2.micro, c5n.xlarge
+  default = "c5n.xlarge" # t2.micro, c5n.xlarge (testing),c5n.9xlarge (see if sufficient), c5n.18xlarge (High speed experiment)
 }
 
 variable "instance_ami" {
   type        = string
   description = "The id of the machine image (AMI) to use for the server."
-  default = "ami-0a7154091c5c6623e" # Ubuntu 22.04
+  default = "ami-0574da719dca65348" # Ubuntu 22.04 # us ami-0574da719dca65348 # ca ami-0a7154091c5c6623e
   validation {
     condition     = length(var.instance_ami) > 4 && substr(var.instance_ami, 0, 4) == "ami-"
     error_message = "The image_id value must be a valid AMI id, starting with \"ami-\"."
@@ -41,7 +41,7 @@ variable "instance_ami" {
 variable "instance_key" {
   description = "Key pair"
   type = string
-  default = "xdp681"
+  default = "xdp681us"
 }
 
 variable "vpc_cidr_block" {
@@ -78,10 +78,3 @@ variable "nics" {
     }
   ]
 }
-
-
-
-
-# TO DO with c5.large
-# Placement group
-# NIC device 2 
