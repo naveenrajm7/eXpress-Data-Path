@@ -60,3 +60,14 @@ dkms.conf
 # aws creds
 *credentials.csv
 *.cer
+
+# MacOS
+.DS_Store
+
+# LaTex 
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.gz
