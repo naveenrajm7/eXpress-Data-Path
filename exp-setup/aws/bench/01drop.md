@@ -17,7 +17,7 @@ sudo ethtool -X ens6 equal X
 **TRex command**
 
 ```bash
-trex> start -f custom/udp_for_benchmarks.py --port 0 -d 60 -m 100mpps -t packet_len=64,stream_count=XX
+trex> start -f /home/ubuntu/xdp_scripts/udp_for_benchmarks.py --port 0 -d 60 -m 100mpps -t packet_len=64,stream_count=XX
 ```
 
 ## Linux
@@ -126,7 +126,10 @@ sudo ./xdp_rxq_info --dev ens6 --action XDP_DROP
 ```bash
 sudo ethtool -L ens6 combined N
 ```
-
+**Divide Traffic among N core**
+```bash
+sudo ethtool -X ens6 equal X
+```
 *N -> 1 to 6*
 
 
