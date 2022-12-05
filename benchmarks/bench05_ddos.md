@@ -3,7 +3,7 @@
 **TRex command**
 
 ```bash
-start -f /home/jbrouer/git/xdp-paper/benchmarks/udp_for_benchmarks02.py -t packet_len=64,stream_count=1 --port 0 -m 2900kpps
+trex>start -f stl/udp_for_benchmarks.py --port 0 -m XXpps -t packet_len=64,stream_count=1
 ```
 
 ## Setup 
@@ -24,7 +24,7 @@ use Host 198.18.1.1 , Display every 1 sec , Length 60 secs , Bind to local CPU, 
 
 XDP DDOS filter program
 ```bash
-sudo ./xdp_redirect_cpu --dev eth1 --progname xdp_prognum4_ddos_filter_pktgen --cpu 1 --skb-mode
+sudo ./xdp_redirect_cpu --dev eth1 --progname xdp_prognum4_ddos_filter_pktgen --cpu 1 --skb-mode --stats
 ```
 
 ## Baseline
