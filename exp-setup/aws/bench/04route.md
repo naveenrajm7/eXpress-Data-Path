@@ -3,9 +3,11 @@
 **Set user password to enter instance using Console port**
 **bad route might disconnect you from instance**
 
-Single Core . 
-    * Singe Route 
-    * Full Table Route
+** Set next-hopt address to the address of the system connected to egress interface **
+
+*Single Core* . 
+    * Singe Route - stream_count = 1
+    * Full Table Route - stream_count = 4000
 
 
 **TRex command**
@@ -13,11 +15,21 @@ Single Core .
 For this script the stream_count parameter sets the number of dest IPs, and port_count sets the number of dest UDP ports
 
 ```bash
-trex> start -f /home/ubuntu/xdp_scripts/udp_multi_ip.py --port 0 -m 24mpps -t packet_len=64,stream_count=20,port_count=1 
+trex> start -f /home/ubuntu/xdp_scripts/udp_multi_ip.py --port 0 -m 100% -t packet_len=64,stream_count=XX,port_count=1 
 ```
+
+
+<!-- sudo ip r add 128.0.0.0/8 via 198.18.2.11
+sudo ip r del 128.0.0.0/8 via 198.18.2.11 -->
+
+
 
 ## Setup
 
+Single queue performance
+```
+ethtool -L ens6 combined 1
+```
 
 Setup fake “next-hop” gateway via a fake ARP/neigh entry.
 
@@ -41,6 +53,11 @@ sudo ip r add 0.0.0.0/1   via 198.18.2.66
 sudo ip r add 128.0.0.0/1 via 198.18.2.66
 ```
 
+```bash
+sudo ip r add 0.0.0.0/1   via 198.18.2.66
+# modified
+sudo ip r add 128.0.0.0/8 via 198.18.2.66
+```
 
 **Install full route table**
 
@@ -57,7 +74,14 @@ sudo ip r del 128.0.0.0/1 via 198.18.2.66
 ## Linux
 
 Measure without XDP
+Throughput is measure by ethtool on the TX interface (ens7)
 
+*Measure throughput with ethtool_stats.pl tx_packets /sec Ethtool*
+
+```bash
+sudo ./ethtool_stats.pl --dev en6 --dev ens7
+# see for stats tx_packets /sec Ethtool(ens3f1 )
+```
 
 ## XDP
 

@@ -1,21 +1,26 @@
 
 # Packet Forwading Performance
 
-Similar to packet drop
+Fixed : 100mpps
+Vary : 
+     stream_count - 1 to 6
+     -L, -X  - 1 to 6
 
-Fixed -m MAX , Keep changing cores
-*Change Number of Cores*
-1 to 6 
-See Repeat section
+Do Same NIC & Different NIC
+
+Fix cores, and keep varying X -> 1 to N
+```bash
+# scale rxqs
+sudo ethtool -L ens6 combined X
+# distribute among rxq
+sudo ethtool -X ens6 equal X
+```
 
 **TRex command**
 
-Start Trex for 60 sec , after 10 secs attach xdp_redirect , quit after 30 secs . Capture average stats 
-
 ```bash
-trex> start -f stl/udp_for_benchmarks.py --port 0 -m XXpps -d 60  -t packet_len=64,stream_count=1
+trex> start -f /home/ubuntu/xdp_scripts/udp_for_benchmarks.py --port 0 -m 100mpps -t packet_len=64,stream_count=XX
 ```
-
 
 
 ## NICs settings
@@ -36,8 +41,7 @@ sudo ./xdp_redirect ens6 ens7 -s
 
 ```bash
 sudo ./ethtool_stats.pl --dev en6 --dev ens7
-
-see for stats tx_packets /sec Ethtool(ens3f1 )
+# see for stats tx_packets /sec Ethtool(ens3f1 )
 ```
 
 ## Same NIC

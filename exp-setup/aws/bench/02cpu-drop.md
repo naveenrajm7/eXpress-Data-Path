@@ -2,7 +2,7 @@
 
 
 Run each trex command for 60 seconds with values 
-500kpps, 1mpps, 2mpps, 3mpps, 4mpps, 5mpps, 10mpps, 15mpps, 20mpps
+500kpps, 1mpps, 2mpps, 3mpps, 4mpps, 5mpps, 10mpps, 15mpps, 20mpps, 25mpps
 
 Run mpstat for 30 seconds capture summary
 
@@ -10,7 +10,7 @@ Run mpstat for 30 seconds capture summary
 **TRex command**
 
 ```bash
-trex> start -f stl/udp_for_benchmarks.py --port 0 -m XXpps -d 60 -t packet_len=64,stream_count=1
+trex> start -f stl/udp_for_benchmarks.py --port 0 -m XXpps -t packet_len=64,stream_count=1
 ```
 
 **Turn off CPU1**
@@ -28,14 +28,15 @@ sudo ethtool -L ens6 combined 1
 
 ```bash
 # Need , redirect traffic to particular rx-queue , hence particular CPU
-ethtool -N (-U / -X)
+sudo ethtool -X ens6 equal 1
 ```
 
 **mpstat command**
 ```mpstat```
 
 ```bash
- mpstat -u -I SUM -P ALL 10 3
+# Measure for 10 seconds , 3 times , report average
+mpstat -u -I SUM -P ALL 10 3
 ```
 
 ## Linux

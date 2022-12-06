@@ -91,7 +91,8 @@ sudo ethtool -X ens6 equal 2
 sudo ethtool -x ens6
 
 # Not able to steer packets . Maybe its too low for each cpu
-# Try The big machine
+# Try The big machine, 
+# Change port numbers to spread out traffic
 
 
 

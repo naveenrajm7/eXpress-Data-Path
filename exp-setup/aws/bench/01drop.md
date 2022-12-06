@@ -1,12 +1,14 @@
 # Packet Drop Performance
 
 
-Start with combined 1 do xdp , L with 1 stream 
-            then 2 xdp , L              2 stream
-            then 3 xdp , L 
+Fixed : 100mpps
+Vary : 
+     stream_count - 1 to 6
+     -L, -X  - 1 to 6
 
-                 6 xdp ,                6 till 12 stream
+XDP, L(raw), L(conn)
 
+Fix cores, and keep varying X -> 1 to N
 ```bash
 # scale rxqs
 sudo ethtool -L ens6 combined X
@@ -55,7 +57,7 @@ mmwatch 'sudo iptables -t raw -L -v -n -x | head'
 
 To remove rule
 ```bash
-sudo iptables -t raw -D PREROUTING -j DROP  
+sudo iptables -t raw -D PREROUTING -j DROP  --in-interface ens6
 ```
 
 ### iptables filter (with conntrack), Please check baseline
