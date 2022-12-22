@@ -28,7 +28,7 @@ Netperf client, On Device other than DUT
 ```bash
 netperf -t TCP_RR -H 198.18.1.10 -D1 -l 60 -T X,X
 ```
-use Host 198.18.1.1 , Display every 1 sec , Length 60 secs , Bind to local CPU, remote CPUß
+use Host 198.18.1.10 , Display every 1 sec , Length 60 secs , Bind to local CPU, remote CPUß
 
 XDP DDOS filter program
 ```bash
@@ -49,7 +49,7 @@ vagrant@xdp-DUT:~$ netperf -t TCP_RR -H 198.18.1.10 -D1  -T1,1
 
 XDP DDOS filter program
 ```bash
-sudo ./xdp_redirect_cpu --dev ens6 --progname xdp_prognum4_ddos_filter_pktgen --cpu 1 
+sudo ./xdp_redirect_cpu --dev ens6 --progname xdp_prognum4_ddos_filter_pktgen --cpu 2
 ```
 
 ```
