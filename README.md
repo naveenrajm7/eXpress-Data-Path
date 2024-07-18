@@ -4,6 +4,9 @@ Fast Programmable Packet Processing in the Operating System Kernel
 Reproducing the experiments of the paper 
 *T. Høiland-Jørgensen, J. D. Brouer, D. Borkmann, J. Fastabend, T. Herbert, D. Ahern, et al., "The eXpress Data Path: Fast Programmable Packet Processing in the Operating System Kernel", ACM CoNEXT, 2018.*
 
+## Results
+
+Check out the [Report](report/xdp_report.pdf) for results.
 
 ## Experiment setup
 
